@@ -2,6 +2,8 @@
 
 `make && sudo make install`
 
+*Note: this is a temporary PyPi package since ethereum-serpent hasn't pushed a
+new version since 2015.*
 
 # Testing
 

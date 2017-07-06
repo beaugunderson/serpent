@@ -12,3 +12,4 @@ libserpent.a
 pyserpent.so
 dist
 *.egg-info
+.cache/

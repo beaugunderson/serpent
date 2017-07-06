@@ -1,0 +1,66 @@
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "32"
+      COMPILER: "mingw"
+      COMPILER_PATH: "C:\\MinGW\\bin"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PYTHON: "C:\\Python27-x64"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "64"
+      COMPILER: "mingw"
+      COMPILER_PATH: "C:\\mingw-w64\\x86_64-6.3.0-posix-seh-rt_v5-rev1\\mingw64\\bin"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PYTHON: "C:\\Python36"
+      PYTHON_VERSION: "3.6.x"
+      PYTHON_ARCH: "32"
+      COMPILER: "mingw"
+      COMPILER_PATH: "C:\\MinGW\\bin"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PYTHON: "C:\\Python36-x64"
+      PYTHON_VERSION: "3.6.x"
+      PYTHON_ARCH: "64"
+      COMPILER: "mingw"
+      COMPILER_PATH: "C:\\mingw-w64\\x86_64-6.3.0-posix-seh-rt_v5-rev1\\mingw64\\bin"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+  PYPI_PASSWORD:
+    secure: 3hCiKszbAfdeQfmQs6cjWPoGOb9+9RaVIoO1p4pjx+8=
+
+install:
+  - if [%COMPILER%]==[mingw] set PATH=%COMPILER_PATH%;%PATH%
+  - if [%COMPILER%]==[mingw] echo [build] > %USERPROFILE%\\pydistutils.cfg
+  - if [%COMPILER%]==[mingw] echo compiler = mingw32 >> %USERPROFILE%\\pydistutils.cfg
+
+  - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+
+  - "pip install --disable-pip-version-check --upgrade pip setuptools twine wheel"
+  - "pip install --no-deps -r requirements-dev-windows.txt"
+
+build_script:
+  - "python setup.py build"
+
+test_script:
+  - "echo skipping tests"
+  # - "py.test"
+
+after_test:
+  # If tests are successful, create binary packages for the project.
+  - "python setup.py bdist_wheel"
+
+artifacts:
+  # Archive the generated packages in the ci.appveyor.com build report.
+  - path: dist\*
+
+deploy_script:
+  - twine upload --skip-existing -u beaugunderson -p %PYPI_PASSWORD% dist\*
+
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
