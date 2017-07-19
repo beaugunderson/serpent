@@ -1,6 +1,6 @@
 env:
   global:
-    secure: AS1IjKP/QjHLPL6Wi0cJiAB2G4zgOBazt094d2LVSl07T6WTLaM6kOAMTyotobASpzD58mXJ1YceUX3ro/sSGrjgwCkTr3PNziyiRbS8rQvld53oTFBwl6/Op+976X8I3TXZWrZuT4v8oe8Yq7MYzGDita7Ggi+Bc7F0VP5jDSu0NQq7DrAWhuQZhN+zv5wEvuQwik3RHi3HBxDmJmx5Y2lSatjvqqPNsRaV1lhge5ZV51Ql99aBKX/1sPmy9fOfOplmMufdj9f6gY7mKQXMudJHExiGzRTikcPSkPIZzVK8Ciooft1eE4xoSSS8c17HkxuluTQg1H5Iat5E513hWKyiIa5/lsX6hyNdLGAA/NKXk1hzlXieqEZ51tHlO0+lBDPQfdELgoR/1DiKCo3N5VFbmR82VUSAIVA85Y2gxspYEB0OmtOSedFmpLFIDJew4UzTNfzzmBrWKt1eIp6ruUiE2j/UpiY31otBt5t35eH6wmhJRFeFrPjOiUNy50MbpTFDSWAS9TjHQMomem03tt+PbgzJHONdm6hB8W5e2XCGGsVy8ufSfhf/TL2SIJR52f2/QohKntQnCC/buuQacSBvg4MRGeve9z32aceI/GyJmYRLBN/nLiQXvBFePqbuUTmf7pANPJQ6+G9KqLd3S1y1jzNOm4jla4V4pz8R5Ys=
+    - secure: k8W5AP3x+UGVw95bCoUfb7PxI9P9AVnIbjx5F/WBMLLFpoueThb8KOY1sYrPVnTgguNUZeCaWa4dDrpwZHMtZH8QWytIq4OAIXSNiowAj5owQSD3W4ias+qffFdcIXNYFUaSCfbdk7tSzp8Q1BfWUrPOOVtjWYQXULDDhCxzeXh0DldLqwOtAHlFgm/PVnUF9W4WQzWsupk6sglRXeJYvlrmNqwxtKCAbn7Rfbym0K2v0rh4lQc8a1sVBWPa0OA9wjym9ZK9GIBps+V8IBrgZLKLZvdRlKHUNFa/y8/1vbvqQ3vOM7qJDABCBzonfqrEOO54l/ermrtmFqK5w4U08xgbHG4GyEvJRxhn9adY3Vf6u67xyQEaeoORwhxbjUtXhwuRW0wO8VlENaBucLMyGV9+pYQO9cBqSbFidtlYdhT3NbW/WytA6e01TY3rGvQIvqQkbSVheouBldrwtDvVJNSdwYPaRbt2seOQt/ZHnr6hiOyjkNCn/eQsc2ZGiWcQ3XGSPhe0niCYmoTRSg2JFOo/ZOsEyvibix8mhXFLjR3BPy6KeiJcER2dldQY1ns10nS2JQlyhBsp5B6/SNlN8aEou4J03yq90hjpKkliL2Gk6N+VmRmUjM9XVqsQyO55Aw8r/j+i1tsyjO0KmXg+7xxG0xJGWxg74MsVefJfM0Y=
 
 matrix:
   include:
@@ -19,5 +19,5 @@ install:
   - docker pull $DOCKER_IMAGE
 
 script:
-  - docker run -e "PYPIPASSWORD=$PYPIPASSWORD" --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/travis/build-wheels.sh
+  - docker run -e "PYPI_PASSWORD=$PYPI_PASSWORD" --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/travis/build-wheels.sh
   - ls wheelhouse/
