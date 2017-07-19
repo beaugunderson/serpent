@@ -4,10 +4,10 @@ set -e -x
 
 yum install -y openssl openssl-devel
 
-PYTHON_VERSIONS=$( /opt/python/cp27-cp27m/bin /opt/python/cp27-cp27mu/bin /opt/python/cp36-cp36m/bin )
+PYTHON_VERSIONS=( /opt/python/cp27-cp27m/bin /opt/python/cp27-cp27mu/bin /opt/python/cp36-cp36m/bin )
 
 # Compile wheels
-for PYBIN in $PYTHON_VERSIONS; do
+for PYBIN in "${PYTHON_VERSIONS[@]}"; do
     "${PYBIN}/pip" install -r /io/requirements-dev.txt
     "${PYBIN}/pip" wheel /io/ -w wheelhouse/
 done
@@ -18,7 +18,7 @@ for whl in wheelhouse/*.whl; do
 done
 
 # Install packages and test
-for PYBIN in $PYTHON_VERSIONS; do
+for PYBIN in "${PYTHON_VERSIONS[@]}"; do
     "${PYBIN}/pip" install ethereum-serpent-augur-temp --no-index -f /io/wheelhouse
     # (cd /io; "${PYBIN}/py.test")
 done
