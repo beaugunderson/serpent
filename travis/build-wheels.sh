@@ -24,4 +24,4 @@ for PYBIN in "${PYTHON_VERSIONS[@]}"; do
 done
 
 /opt/python/cp36-cp36m/bin/pip install twine
-/opt/python/cp36-cp36m/bin/twine upload --skip-existing -u beaugunderson -p "$PYPI_PASSWORD" wheelhouse/*
+/opt/python/cp36-cp36m/bin/twine upload --skip-existing -u beaugunderson -p "$PYPI_PASSWORD" /io/wheelhouse/*manylinux*
