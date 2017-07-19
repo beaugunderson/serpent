@@ -1,16 +1,20 @@
-language: python
-python:
-  - "3.5"
-env:
-  matrix:
-    - TOX_ENV=py27
-    - TOX_ENV=py34
-    - TOX_ENV=py35
-cache: pip
+matrix:
+  include:
+    - sudo: required
+      services:
+        - docker
+      env:
+        - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+
+    - sudo: required
+      services:
+        - docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_i686
+           PRE_CMD=linux32
+
 install:
-  - "travis_retry pip install setuptools --upgrade"
-  - "travis_retry pip install tox"
+  - docker pull $DOCKER_IMAGE
+
 script:
-  - tox -e $TOX_ENV
-after_script:
-  - cat .tox/$TOX_ENV/log/*.log
+  - docker run --rm -v `pwd`:/io $DOCKER_IMAGE $PRE_CMD /io/travis/build-wheels.sh
+  - ls wheelhouse/
